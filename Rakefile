@@ -64,11 +64,13 @@ task :bundle_cookbook, :cookbook do |t, args|
   FileUtils.rm_rf temp_dir
 end
 
-desc "Update the chef server with all cookbooks, data bags and roles"
-task :update_chef_server do  |t|
-  Rake::Task["databag:upload_all"].invoke
-  Rake::Task["roles"].invoke
-  run %{knife cookbook upload -a}
+namespace :chefonrails do |t|
+  desc "Update the chef server with all cookbooks, data bags and roles"
+  task :update_chef_server do  |t|
+    Rake::Task["databag:upload_all"].invoke
+    Rake::Task["roles"].invoke
+    run %{knife cookbook upload -a}
+  end
 end
 
 def run(command)
