@@ -7,10 +7,13 @@ run_list(
   "recipe[ntp]",
   "recipe[sudo]",
   "recipe[users::sysadmins]",
+  "recipe[iptables]",
+  "recipe[iptables::ssh]",
   "recipe[postfix]",
   "recipe[logwatch]",
   "recipe[fail2ban]",
-  "recipe[mail_monitor]"
+  "recipe[mail_monitor]",
+  "recipe[chefonrails]"
 )
 
 default_attributes "ntp" => {
