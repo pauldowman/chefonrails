@@ -2,10 +2,6 @@ package "logtail" do
   action :install
 end
 
-gem_package "tlsmail" do
-  action :install
-end
-
 template "/usr/local/bin/emergency_mail_sender" do
   source "emergency_mail_sender.erb"
   owner "root"

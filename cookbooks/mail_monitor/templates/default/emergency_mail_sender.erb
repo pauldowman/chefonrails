@@ -23,9 +23,7 @@ debug                    = false
 subject = ARGV[0]
 body = $stdin.read
 
-require 'rubygems'
 require 'net/smtp'
-require 'tlsmail'
 
 exit if body.nil? || body == ""
 
@@ -35,10 +33,10 @@ Subject: #{environment} : #{subject}
 #{body}
 END_OF_MESSAGE
 
-Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
-  smtp = Net::SMTP.new(smtp_server, smtp_port)
-  smtp.set_debug_output $stderr if debug
-  smtp.start(smtp_mail_from_domain, smtp_account_name, smtp_password, smtp_authentication_type) do |s|
-    s.send_message msgstr, from_address, to_address
+smtp = Net::SMTP.new(smtp_server, smtp_port)
+smtp.enable_starttls
+smtp.set_debug_output $stderr if debug
+smtp.start(smtp_mail_from_domain, smtp_account_name, smtp_password, smtp_authentication_type) do |s|
+  s.send_message msgstr, from_address, to_address
 end
 
