@@ -1,0 +1,51 @@
+{
+  "license": "Apache 2.0",
+  "recipes": {
+    "logwatch": ""
+  },
+  "conflicting": {
+
+  },
+  "dependencies": {
+    "perl": [
+
+    ]
+  },
+  "providing": {
+    "logwatch": [
+
+    ]
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+  "description": "Installs logwatch, a nice log analyzer",
+  "replacing": {
+
+  },
+  "platforms": {
+    "debian": [
+
+    ],
+    "centos": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "redhat": [
+
+    ]
+  },
+  "version": "0.1.0",
+  "maintainer": "Opscode, Inc.",
+  "recommendations": {
+
+  },
+  "name": "logwatch",
+  "maintainer_email": "cookbooks@opscode.com",
+  "attributes": {
+
+  },
+  "suggestions": {
+
+  }
+}
