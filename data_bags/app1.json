@@ -1,0 +1,85 @@
+{
+  "id": "app1",
+  "server_roles": [
+    "app1"
+  ],
+  "type": {
+    "app1": [
+      "rails",
+      "passenger_apache2",
+      "cron_jobs"
+    ]
+  },
+  "hostnames": {
+    "production": ["example.com"],
+    "staging": ["staging.example.com"]
+  },
+  "memcached_role": [
+    "app1_memcached"
+  ],
+  "database_master_role": [
+    "app1_database_master"
+  ],
+  "repository": "git@github.com:YourGitHubId/yourapp.git",
+  "revision": {
+    "production": "master",
+    "staging": "staging"
+  },
+  "force": {
+    "production": true,
+    "staging": true
+  },
+  "migrate": {
+    "production": true,
+    "staging": true
+  },
+  "databases": {
+    "production": {
+      "reconnect": "true",
+      "encoding": "utf8",
+      "username": "yourapp",
+      "adapter": "mysql",
+      "password": "sekrit",
+      "database": "yourapp"
+    },
+    "staging": {
+      "reconnect": "true",
+      "encoding": "utf8",
+      "username": "yourapp",
+      "adapter": "mysql",
+      "password": "secrit",
+      "database": "yourapp"
+    }
+  },
+  "mysql_root_password": {
+    "production": "sekrit",
+    "staging": "sekrit"
+  },
+  "mysql_debian_password": {
+    "production": "sekrit",
+    "staging": "sekrit"
+  },
+  "mysql_repl_password": {
+    "production": "sekrit",
+    "staging": "sekrit"
+  },
+  "deploy_key": "-----BEGIN DSA PRIVATE KEY-----\n...\n-----END DSA PRIVATE KEY-----",
+  "deploy_to": "/srv/app1",
+  "owner": "rails",
+  "group": "rails",
+  "packages": {
+  },
+  "gems": {
+    "bundler": ">=1.0.7",
+    "rake": ">=0.8.7"
+  },
+  "memcached": {
+    "production": {
+      "namespace": "yourapp_production"
+    },
+    "staging": {
+      "namespace": "yourapp_staging"
+    }
+  }
+}
+
