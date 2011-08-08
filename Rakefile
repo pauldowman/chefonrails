@@ -63,3 +63,20 @@ task :bundle_cookbook, :cookbook do |t, args|
 
   FileUtils.rm_rf temp_dir
 end
+
+desc "Update the chef server with all cookbooks, data bags and roles"
+task :update_chef_server do  |t|
+  run %{knife data bag from file apps data_bags/app1.json}
+  Dir.glob("data_bags/users/*.json").each do |f|
+    run %{knife data bag from file users #{f}}
+  end
+  Rake::Task["roles"].invoke
+  run %{knife cookbook upload -a}
+end
+
+def run(command)
+  result = system command
+  raise("error, process exited with status #{$?.exitstatus}") unless result  
+end
+
+
