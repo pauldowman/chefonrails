@@ -18,9 +18,9 @@ file "/etc/gemrc" do
   content YAML.dump({"gem" => "--no-ri --no-rdoc"})
 end
 
-# remove the default user, but not if we're bootstrapping as that user
+# remove the default user, but not if that user is still logged in
 user "ubuntu" do
   action :remove
-  not_if "test `echo $USER` = ubuntu"
+  only_if "test `who -s | grep ubuntu | wc -l` = 0"
 end
 
