@@ -13,12 +13,6 @@ run_list(
   "recipe[mail_monitor]"
 )
 
-default_attributes "authorization" => {
-  "sudo" => {
-    "groups" => ["admin", "wheel", "sysadmin"],
-    "passwordless" => true
-  }
-}
 default_attributes "ntp" => {
   "servers" => ["0.pool.ntp.org", "1.pool.ntp.org"]
 }

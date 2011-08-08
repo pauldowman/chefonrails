@@ -19,4 +19,4 @@
 
 default['authorization']['sudo']['groups'] = Array.new 
 default['authorization']['sudo']['users'] = Array.new
-default['authorization']['sudo']['passwordless'] = false
+default['authorization']['sudo']['passwordless'] = true
