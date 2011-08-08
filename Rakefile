@@ -66,10 +66,7 @@ end
 
 desc "Update the chef server with all cookbooks, data bags and roles"
 task :update_chef_server do  |t|
-  run %{knife data bag from file apps data_bags/app1.json}
-  Dir.glob("data_bags/users/*.json").each do |f|
-    run %{knife data bag from file users #{f}}
-  end
+  Rake::Task["databag:upload_all"].invoke
   Rake::Task["roles"].invoke
   run %{knife cookbook upload -a}
 end
