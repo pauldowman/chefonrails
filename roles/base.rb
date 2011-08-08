@@ -16,7 +16,7 @@ run_list(
 default_attributes "authorization" => {
   "sudo" => {
     "groups" => ["admin", "wheel", "sysadmin"],
-    "users" => ["user1"]
+    "passwordless" => true
   }
 }
 default_attributes "ntp" => {

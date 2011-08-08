@@ -1,7 +1,7 @@
 // see: https://github.com/opscode/cookbooks/tree/master/users
 {
   "id": "user1", // Account name (login). Rename as desired
-  "ssh_keys": "ssh public key here", // Public key goes here, remove line breaks
+  "ssh_keys": "ssh-rsa AAAAB3Nz...yhCw== user1", // Public key goes here, remove line breaks
   "groups": "sysadmin", // Don't change this
   "uid": 2001, // Increment this for each successive user
   "shell": "\/bin\/bash"
