@@ -28,6 +28,21 @@ node.run_state[:rails_env] = rails_env
 # default application recipe work it's mojo for you.
 ###
 
+user "rails" do
+  uid "2000"
+  # Don't make it a system user so that we can set RAILS_ENV in the .bashrc
+  shell "/bin/bash"
+  home "/home/rails"
+  supports :manage_home => true
+end
+
+template "/home/rails/.bashrc" do
+  source "rails_user_dotbashrc.erb"
+  owner "rails"
+  group "rails"
+  mode "0644"
+end
+
 node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
 
 ## First, install any application specific packages
