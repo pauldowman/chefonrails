@@ -1,3 +1,4 @@
 .DS_Store
+.chef/*.pem
+.chef/knife.rb
 .rake_test_cache
-
