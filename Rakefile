@@ -67,8 +67,21 @@ end
 namespace :chefonrails do |t|
   desc "Update the chef server with all cookbooks, data bags and roles"
   task :update_chef_server do  |t|
-    Rake::Task["databag:upload_all"].invoke
+    puts "Updating environments..."
+    Dir.glob("environments/*.rb").each do |f|
+      run %{knife environment from file #{f}}
+    end
+
+    puts "Updating data bags..."
+    run %{knife data bag from file apps data_bags/app1.json}
+    Dir.glob("data_bags/users/*.json").each do |f|
+      run %{knife data bag from file users #{f}}
+    end
+
+    puts "Updating roles..."
     Rake::Task["roles"].invoke
+
+    puts "Updating cookbooks..."
     run %{knife cookbook upload -a}
   end
 end
