@@ -23,7 +23,7 @@
   "repository": "git@github.com:YourGitHubId/yourapp.git",
   "revision": {
     "production": "master",
-    "staging": "staging"
+    "staging": "master"
   },
   "force": {
     "production": true,
