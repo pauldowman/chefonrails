@@ -26,8 +26,8 @@
     "staging": "master"
   },
   "force": {
-    "production": true,
-    "staging": true
+    "production": false,
+    "staging": false
   },
   "migrate": {
     "production": true,
