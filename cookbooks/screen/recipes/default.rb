@@ -20,3 +20,10 @@
 package "screen" do
   action :install
 end
+
+template "/etc/screenrc" do
+  source "screenrc.erb"
+  owner "root"
+  group "root"
+  mode 0644
+end
