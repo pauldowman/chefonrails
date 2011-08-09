@@ -24,18 +24,19 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
-server_aliases = [ "#{app['id']}.#{node['domain']}", node['fqdn'] ]
+allowed_hostnames = (app['hostnames'] && app['hostnames'][node.app_environment]) || []
+other_hostnames = [ node.fqdn ]
 
 if node.has_key?("cloud")
-  server_aliases << node['cloud']['public_hostname']
+  other_hostnames << node['cloud']['public_hostname']
 end
   
 web_app app['id'] do
   docroot "#{app['deploy_to']}/current/public"
-  template "#{app['id']}.conf.erb"
-  cookbook "#{app['id']}"
-  server_name "#{app['id']}.#{node[:domain]}"
-  server_aliases server_aliases
+  template "passenger_web_app.conf.erb"
+  cookbook "passenger_apache2"
+  allowed_hostnames allowed_hostnames
+  other_hostnames other_hostnames  
   log_dir node[:apache][:log_dir]
   rails_env node.chef_environment
 end
