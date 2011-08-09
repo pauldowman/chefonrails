@@ -24,7 +24,7 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
-allowed_hostnames = (app['hostnames'] && app['hostnames'][node.app_environment]) || []
+allowed_hostnames = (app['hostnames'] && app['hostnames'][node.chef_environment]) || []
 other_hostnames = [ node.fqdn ]
 
 if node.has_key?("cloud")

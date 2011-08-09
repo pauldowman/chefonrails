@@ -1,8 +1,8 @@
 execute "rake_db_seed" do
   command "bundle exec rake db:seed"
-  environment 'RAILS_ENV' => node.app_environment
+  environment 'RAILS_ENV' => node.chef_environment
   cwd "/srv/app1/current" # TODO determine the app name
-  only_if { node.app_environment != 'production' }
+  only_if { node.chef_environment != 'production' }
 end
 
 # Make sure this only runs once, remove the role after it runs.

@@ -14,7 +14,7 @@ smtp_port                = <%= node[:mail_monitor][:smtp_port] %>
 smtp_mail_from_domain    = "<%= node[:mail_monitor][:smtp_mail_from_domain] %>"
 smtp_account_name        = "<%= node[:mail_monitor][:smtp_account_name] %>"
 smtp_password            = "<%= node[:mail_monitor][:smtp_password] %>"
-environment              = "<%= node[:app_environment] %>"
+environment              = "<%= node.chef_environment %>"
 smtp_authentication_type = :plain
 debug                    = false
 
