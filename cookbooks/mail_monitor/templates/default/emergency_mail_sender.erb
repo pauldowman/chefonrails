@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+# This is a simple script to send mail via an alternate server when there are
+# errors with the normal queueing mail sender. The subject is the first
+# command-line arg and the body is received on stdin.  The subject has the
+# environment name prepended.
+
+#################################
+
+from_address             = "<%= node[:mail_monitor][:from_address] %>"
+to_address               = "<%= node[:mail_monitor][:to_address] %>"
+smtp_server              = "<%= node[:mail_monitor][:smtp_server] %>"
+smtp_port                = <%= node[:mail_monitor][:smtp_port] %>
+smtp_mail_from_domain    = "<%= node[:mail_monitor][:smtp_mail_from_domain] %>"
+smtp_account_name        = "<%= node[:mail_monitor][:smtp_account_name] %>"
+smtp_password            = "<%= node[:mail_monitor][:smtp_password] %>"
+environment              = "<%= node[:app_environment] %>"
+smtp_authentication_type = :plain
+debug                    = false
+
+#################################
+
+subject = ARGV[0]
+body = $stdin.read
+
+require 'net/smtp'
+
+exit if body.nil? || body == ""
+
+msgstr = <<END_OF_MESSAGE
+Subject: #{environment} : #{subject}
+
+#{body}
+END_OF_MESSAGE
+
+smtp = Net::SMTP.new(smtp_server, smtp_port)
+smtp.enable_starttls
+smtp.set_debug_output $stderr if debug
+smtp.start(smtp_mail_from_domain, smtp_account_name, smtp_password, smtp_authentication_type) do |s|
+  s.send_message msgstr, from_address, to_address
+end
+
