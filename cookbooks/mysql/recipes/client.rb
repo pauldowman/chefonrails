@@ -40,21 +40,11 @@ package "mysql-devel" do
   action :install
 end
 
-if platform?(%w{ debian ubuntu redhat centos fedora suse })
-
-  package "mysql-ruby" do
-    package_name value_for_platform(
-      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
-      ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
-      "default" => 'libmysql-ruby'
-    )
-    action :install
-  end
-
-else
-
-  gem_package "mysql" do
-    action :install
-  end
-
+# Let's save some headaches and just use the gem version instead of the
+# system package version.
+# e.g. on 32-bit Ubuntu 11.04 the system package doesn't even work by default
+# (it installs /usr/lib/ruby/1.9.1/i486-linux/mysql.so but that's not in the
+# ruby load path).
+gem_package "mysql" do
+  action :install
 end
