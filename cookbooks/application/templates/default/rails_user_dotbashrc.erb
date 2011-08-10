@@ -67,5 +67,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export RAILS_ENV=<%= node[:chef_environment] %>
+export RAILS_ENV=<%= node.chef_environment %>
 
