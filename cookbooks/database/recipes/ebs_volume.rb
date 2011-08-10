@@ -42,15 +42,15 @@ if node[:ec2]
 
   search(:apps) do |app|
     if (app["database_master_role"] & node.run_list.roles).length == 1 || (app["database_slave_role"] & node.run_list.roles).length == 1
-      master_role = app["database_master_role"]
-      slave_role = app["database_slave_role"]
+      master_role = app["database_master_role"] && app["database_master_role"].first
+      slave_role = app["database_slave_role"] && app["database_slave_role"].first
       root_pw = app["mysql_root_password"][node.chef_environment]
       snapshots_to_keep = app["snapshots_to_keep"][node.chef_environment]
 
-      if (master_role & node.run_list.roles).length == 1
+      if master_role
         db_type = "master"
         db_role = master_role
-      elsif (slave_role & node.run_list.roles).length == 1
+      elsif slave_role
         db_type = "slave"
         db_role = slave_role
       end
@@ -175,7 +175,7 @@ if node[:ec2]
       only_if "xfs_admin -l #{ebs_vol_dev} 2>&1 | grep -qx 'xfs_admin: #{ebs_vol_dev} is not a valid XFS filesystem (unexpected SB magic number 0x00000000)'"
     end
 
-  %w{ec2_path datadir}.each do |dir|
+  %w{ec2_path data_dir}.each do |dir|
     directory node['mysql'][dir] do
       mode 0755
     end
@@ -187,7 +187,7 @@ if node[:ec2]
     action :mount
   end
 
-  mount node['mysql']['datadir'] do
+  mount node['mysql']['data_dir'] do
     device node['mysql']['ec2_path']
     fstype "none"
     options "bind,rw"
