@@ -86,6 +86,32 @@ namespace :chefonrails do |t|
   end
 end
 
+desc "Run chef-client on all servers in the specified environment"
+task :deploy, :environment, :use_cloud_hostname do |t, args |
+  environment = args[:environment]
+  use_cloud_hostname = args[:use_cloud_hostname]
+  usage = <<-END
+usage:
+rake 'deploy[<environment>,<use_cloud_hostname>]'
+e.g.:
+  rake 'deploy[staging]'
+or, for cloud environments, e.g. EC2:
+  rake 'deploy[staging,true]'
+END
+  unless environment
+    puts usage
+    exit 1
+  end
+
+  if environment == "production"
+    puts "****** Deploying to production! Pausing for 15 seconds... ******\n"
+    sleep 15
+  end
+
+  run %{knife ssh 'chef_environment:#{environment}' 'sudo chef-client'#{use_cloud_hostname ? ' -a cloud.public_hostname' : nil}}
+  run %{growlnotify 'Deployed to #{environment}' < /dev/null}
+end
+
 def run(command)
   result = system command
   raise("error, process exited with status #{$?.exitstatus}") unless result  
