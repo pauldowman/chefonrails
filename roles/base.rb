@@ -13,6 +13,7 @@ run_list(
   "recipe[logwatch]",
   "recipe[fail2ban]",
   "recipe[mail_monitor]",
+  "recipe[screen]",
   "recipe[chefonrails]"
 )
 
