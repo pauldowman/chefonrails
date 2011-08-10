@@ -160,6 +160,16 @@ end
 
 # Attaches the volume and blocks until done (or times out)
 def attach_volume(volume_id, instance_id, device, timeout)
+  # Ubuntu Natty uses /dev/xvdX instead of /dev/sdX
+  # As a quick & dirty fix, let's just symlink it to /dev/sdX
+  if Dir.glob("/dev/xvd*").any?
+    pattern = /\/dev\/sd([a-z])/
+    if device.match(pattern)
+      xvdx_device = device.sub(pattern, "/dev/xvd#{$1}")
+      require 'fileutils'
+      FileUtils.ln_s(xvdx_device, device, :force => true) 
+    end
+  end
   Chef::Log.debug("Attaching #{volume_id} as #{device}")
   ec2.attach_volume(volume_id, instance_id, device)
 
