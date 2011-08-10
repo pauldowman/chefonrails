@@ -1,0 +1,13 @@
+// NOTE: you might want to edit this directly on the Chef server instead of
+// uploading it with knife, since it's sensitive and doesn't change much.
+// https://manage.opscode.com/databags/aws/databag_items/main
+// Alternatively we could use an encrypted data bag
+{
+  "id": "main",
+  "ec2_private_key": "",
+  "ec2_cert": "",
+  "aws_account_id": "",
+  "aws_secret_access_key": "",
+  "aws_access_key_id": ""
+}
+

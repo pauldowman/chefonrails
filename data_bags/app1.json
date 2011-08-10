@@ -63,6 +63,10 @@
     "production": "sekrit",
     "staging": "sekrit"
   },
+  "snapshots_to_keep": {
+    "production": 72,
+    "staging": 2
+  },
   "deploy_key": "-----BEGIN DSA PRIVATE KEY-----\n...\n-----END DSA PRIVATE KEY-----",
   "deploy_to": "/srv/app1",
   "owner": "rails",
