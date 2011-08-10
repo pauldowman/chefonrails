@@ -38,7 +38,7 @@
       "reconnect": "true",
       "encoding": "utf8",
       "username": "yourapp",
-      "adapter": "mysql",
+      "adapter": "mysql", // don't forget to change to mysql2 if you're using that
       "password": "sekrit",
       "database": "yourapp"
     },
@@ -46,8 +46,8 @@
       "reconnect": "true",
       "encoding": "utf8",
       "username": "yourapp",
-      "adapter": "mysql",
-      "password": "secrit",
+      "adapter": "mysql", // don't forget to change to mysql2 if you're using that
+      "password": "sekrit",
       "database": "yourapp"
     }
   },
