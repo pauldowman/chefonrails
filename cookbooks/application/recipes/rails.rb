@@ -184,12 +184,12 @@ deploy_revision app['id'] do
       end
       common_groups = %w{development test cucumber staging production}
       execute "bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
-        ignore_failure true
+        ignore_failure false
         cwd release_path
       end
     elsif app['gems'].has_key?('bundler08')
       execute "gem bundle" do
-        ignore_failure true
+        ignore_failure false
         cwd release_path
       end
 
@@ -214,7 +214,7 @@ deploy_revision app['id'] do
 
   if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
     migrate true
-    migration_command app['migration_command'] || "rake db:migrate"
+    migration_command app['migration_command'] || "bundle exec rake db:migrate"
   else
     migrate false
   end
