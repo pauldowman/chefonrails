@@ -218,14 +218,16 @@ deploy_revision app['id'] do
   else
     migrate false
   end
-  before_symlink do
-    ruby_block "remove_run_migrations" do
-      block do
-        if node.role?("#{app['id']}_run_migrations")
-          Chef::Log.info("Migrations were run, removing role[#{app['id']}_run_migrations]")
-          node.run_list.remove("role[#{app['id']}_run_migrations]")
-        end
-      end
-    end
-  end
+
+  # Most people want to run migrations by default...
+  #before_symlink do
+  #  ruby_block "remove_run_migrations" do
+  #    block do
+  #      if node.role?("#{app['id']}_run_migrations")
+  #        Chef::Log.info("Migrations were run, removing role[#{app['id']}_run_migrations]")
+  #        node.run_list.remove("role[#{app['id']}_run_migrations]")
+  #      end
+  #    end
+  #  end
+  #end
 end
