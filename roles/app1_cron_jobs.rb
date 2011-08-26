@@ -1,4 +1,4 @@
-name "app1_background_jobs"
+name "app1_cron_jobs"
 run_list(
   "recipe[application]",
   "recipe[application::cron_jobs]"
