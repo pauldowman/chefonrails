@@ -1,0 +1,16 @@
+default[:redis] = {}
+default[:redis][:bind_address] = '0.0.0.0'
+default[:redis][:port] = 6379
+default[:redis][:timeout] = 300
+default[:redis][:datadir] = '/var/lib/redis'
+default[:redis][:log_level] = 'notice'
+default[:redis][:log_file] = '/var/log/redis/redis.log'
+default[:redis][:pid_file] = '/var/run/redis.pid'
+default[:redis][:dump_file] = 'dump.rdb'
+default[:redis][:appendonly] = 'no'
+default[:redis][:aofile] = 'appendonly.aof'
+default[:redis][:appendfsync] = 'everysec'
+default[:redis][:vm] = 'no'
+default[:redis][:vm_max_memory] = '385875968'
+default[:redis][:vm_page_size] = '32'
+default[:redis][:vm_pages] = '134217728'
