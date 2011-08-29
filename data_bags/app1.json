@@ -7,7 +7,8 @@
     "app1": [
       "rails",
       "passenger_apache2",
-      "cron_jobs"
+      "cron_jobs",
+      "worker"
     ]
   },
   "hostnames": {
@@ -19,6 +20,9 @@
   ],
   "database_master_role": [
     "app1_database_master"
+  ],
+  "redis_master_role": [
+    "app1_redis_master"
   ],
   "repository": "git@github.com:YourGitHubId/yourapp.git",
   "revision": {
@@ -84,6 +88,12 @@
     "staging": {
       "namespace": "yourapp_staging"
     }
+  },
+  //These are our queue names. We'll run 2 workers for "high"
+  "queues": {
+    "high": 2,
+    "medium": 1,
+    "low": 1
   }
 }
 

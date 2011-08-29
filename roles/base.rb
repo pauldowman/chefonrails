@@ -9,6 +9,7 @@ run_list(
   "recipe[users::sysadmins]",
   "recipe[iptables]",
   "recipe[iptables::ssh]",
+  "recipe[god]",
   "recipe[postfix]",
   "recipe[logwatch]",
   "recipe[fail2ban]",

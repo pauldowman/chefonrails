@@ -43,8 +43,13 @@ end
 
 if ::File.exists?(::File.join(app['deploy_to'], "current"))
   d = resources(:deploy_revision => app['id'])
+  # TODO for now the worker and web roles are tied together, this is a bug.
+  # The app recipe needs to deploy only, and there needs to be a web role
+  # TODO check which role(s) we're in here and change the command
+  # appropriately, this should maybe be moved to a different recipe
   d.restart_command do
     service "apache2" do action :restart; end
+    execute "god restart workers"
   end
 end
 

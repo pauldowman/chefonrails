@@ -147,6 +147,37 @@ if app["database_master_role"]
   end
 end
 
+if app["redis_master_role"]
+  rm = nil
+  # If we are the redis master
+  if node.run_list.roles.include?(app["redis_master_role"][0])
+    rm = node
+  else
+  # Find the redis master
+    results = search(:node, "role:#{app["redis_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
+    rows = results[0]
+    if rows.length == 1
+      rm = rows[0]
+    end
+  end
+
+  # Assuming we have one...
+  if rm
+    template "#{app['deploy_to']}/shared/redis.yml" do
+      source "redis.yml.erb"
+      owner app["owner"]
+      group app["group"]
+      mode "644"
+      variables(
+        :host => (rm.attribute?('cloud') ? rm['cloud']['local_ipv4'] : rm['ipaddress']),
+        :rails_env => rails_env
+      )
+    end
+  else
+    Chef::Log.warn("No node with role #{app["redis_master_role"][0]}, redis.yml not rendered!")
+  end
+end
+
 if app["memcached_role"]
   results = search(:node, "role:#{app["memcached_role"][0]} AND chef_environment:#{node.chef_environment} NOT hostname:#{node[:hostname]}")
   if results.length == 0
@@ -209,6 +240,7 @@ deploy_revision app['id'] do
 
   symlink_before_migrate({
     "database.yml" => "config/database.yml",
+    "redis.yml" => "config/redis.yml",
     "memcached.yml" => "config/memcached.yml"
   })
 
