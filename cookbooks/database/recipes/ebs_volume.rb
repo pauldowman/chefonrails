@@ -97,7 +97,7 @@ if node[:ec2]
   aws_ebs_volume "#{db_role}_#{node.chef_environment}" do
     aws_access_key aws['aws_access_key_id']
     aws_secret_access_key aws['aws_secret_access_key']
-    size 50
+    size 20
     device ebs_vol_dev
     snapshots_to_keep snapshots_to_keep
     case db_type

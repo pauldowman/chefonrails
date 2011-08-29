@@ -39,7 +39,7 @@ end
 aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
   aws_access_key node.db_snapshot.aws_access_key_id
   aws_secret_access_key node.db_snapshot.aws_secret_access_key
-  size 50
+  size 20
   device node.db_snapshot.ebs_vol_dev
   snapshots_to_keep node.db_snapshot.snapshots_to_keep
   action :snapshot
