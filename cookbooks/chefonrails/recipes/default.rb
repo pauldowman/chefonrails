@@ -21,6 +21,6 @@ end
 # remove the default user, but not if that user is still logged in
 user "ubuntu" do
   action :remove
-  only_if "test `who -s | grep ubuntu | wc -l` = 0"
+  only_if "test `ps aux | awk '{print $1}' | grep ubuntu | wc -l` = 0"
 end
 
