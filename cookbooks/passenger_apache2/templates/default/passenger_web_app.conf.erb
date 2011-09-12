@@ -1,6 +1,9 @@
-<% protocols = %w(http) # TODO add config variable for HTTPS %>
-<% protocols.each do | p | %>
-<VirtualHost *:<%= p == "http" ? 80 : 443 %> >
+<%
+  protocols = {"http" => 80}
+  protocols["https"] = 443 if @params[:enable_ssl]
+-%>
+<% protocols.each do | proto, port | -%>
+<VirtualHost *:<%= port %> >
   ServerName <%= @params[:allowed_hostnames].first %>
   ServerAlias <% (@params[:allowed_hostnames] + @params[:other_hostnames]).each do |a| %><%= "#{a}" %> <% end %>  
   DocumentRoot <%= @params[:docroot] %>
@@ -8,7 +11,7 @@
   RailsBaseURI /
   RailsEnv <%= @params[:rails_env] %>
   PassengerMaxPoolSize <%= node[:passenger][:max_pool_size] %>
-  PassengerPreStart <%=p%>://<%= @params[:allowed_hostnames].first %>/warmup
+  PassengerPreStart <%=proto%>://<%= @params[:allowed_hostnames].first %>/warmup
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
@@ -19,11 +22,11 @@
   </Directory>
 
   LogLevel info
-  ErrorLog <%= node[:apache][:log_dir] %>/<%= (p == "https" ? "ssl-" : "") + @params[:name] %>-error.log
-  CustomLog <%= node[:apache][:log_dir] %>/<%= (p == "https" ? "ssl-" : "") +  @params[:name] %>-access.log combined
+  ErrorLog <%= node[:apache][:log_dir] %>/<%= (proto == "https" ? "ssl-" : "") + @application_name %>-error.log
+  CustomLog <%= node[:apache][:log_dir] %>/<%= (proto == "https" ? "ssl-" : "") + @application_name %>-access.log combined
 
   RewriteEngine On
-  RewriteLog <%= node[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
+  RewriteLog <%= node[:apache][:log_dir] %>/<%= (proto == "https" ? "ssl-" : "") + @application_name %>-rewrite.log
   RewriteLogLevel 0
   
   # Ensure we're using one of the allowed hostnames
@@ -31,17 +34,19 @@
   RewriteCond %{HTTP_HOST}   !^<%= h %> [NC]
   <% end -%>
   RewriteCond %{HTTP_HOST}   !^$
-  RewriteRule ^/(.*)$        <%=p%>://<%= @params[:allowed_hostnames].first %>/$1 [L,R=301]
+  RewriteRule ^/(.*)$        <%=proto%>://<%= @params[:allowed_hostnames].first %>/$1 [L,R=301]
 
   RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
   RewriteCond %{SCRIPT_FILENAME} !maintenance.html
   RewriteRule ^.*$ /system/maintenance.html [L]
 
-  <% if p == "https" %>
+  <% if proto == "https" %>
   SSLEngine On
-  SSLCertificateKeyFile /etc/apache2/ssl/app1.com.key
-  SSLCertificateFile /etc/apache2/ssl/app1.com.crt
-  SSLCertificateChainFile /etc/apache2/ssl/cert_chain.crt
-  <% end %>
+  SSLCertificateKeyFile <%= node[:apache][:ssl][:cert_key_file] %>
+  SSLCertificateFile <%= node[:apache][:ssl][:cert_file] %>
+  <% if node[:apache][:ssl][:cert_chain_file] -%>
+  SSLCertificateChainFile <%= node[:apache][:ssl][:cert_chain_file]  %>
+  <% end # if cert_chain_file -%>
+  <% end # if https -%>
 </VirtualHost>
 <% end %>

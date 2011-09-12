@@ -39,6 +39,7 @@ web_app app['id'] do
   other_hostnames other_hostnames  
   log_dir node[:apache][:log_dir]
   rails_env node.chef_environment
+  enable_ssl app["enable_ssl"]
 end
 
 if ::File.exists?(::File.join(app['deploy_to'], "current"))

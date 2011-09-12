@@ -85,3 +85,8 @@ default[:apache][:worker][:minsparethreads] = 64
 default[:apache][:worker][:maxsparethreads] = 192
 default[:apache][:worker][:threadsperchild] = 64
 default[:apache][:worker][:maxrequestsperchild] = 0
+
+# SSL Attributes
+default[:apache][:ssl][:cert_key_file] = "/etc/apache2/ssl/changeme.key"
+default[:apache][:ssl][:cert_file] = "/etc/apache2/ssl/changeme.crt"
+default[:apache][:ssl][:cert_chain_file] = nil

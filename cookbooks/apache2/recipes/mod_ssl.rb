@@ -41,3 +41,19 @@ end
 apache_module "ssl" do
   conf true
 end
+
+[:cert_key_file, :cert_file, :cert_chain_file].each do |attr_name|
+  file = node[:apache][:ssl][attr_name]
+  basename = file ? File.basename(node[:apache][:ssl][attr_name]) : nil
+
+  cookbook_file attr_name.to_s do
+    only_if { file }
+    path file
+    source basename
+    owner 'root'
+    group 'root'
+    mode 0600
+    notifies :reload, "service[apache2]"
+  end
+end
+

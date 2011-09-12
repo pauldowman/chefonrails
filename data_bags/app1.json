@@ -94,6 +94,7 @@
     "high": 2,
     "medium": 1,
     "low": 1
-  }
+  },
+  "enable_ssl": true
 }
 
