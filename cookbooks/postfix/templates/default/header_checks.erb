@@ -3,6 +3,6 @@ if /^To: .*@.*$/
 !/^To: .*@<%= "(#{node[:postfix][:discard_except_domain]}|#{node[:fqdn]}|localhost)" %>.*$/i DISCARD Mail to domains other than <%= node[:postfix][:discard_except_domain] %> discarded on staging/test server.
 endif
 <% end -%>
-<% if node[:app_environment] != "production" -%>
-/^Subject: (.*)$/ REPLACE Subject: <%= node[:app_environment] %>: $1
+<% if node.chef_environment != "production" -%>
+/^Subject: (.*)$/ REPLACE Subject: <%= node.chef_environment %>: $1
 <% end -%>
