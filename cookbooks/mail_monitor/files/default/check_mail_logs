@@ -3,7 +3,13 @@
 hostname=`hostname -s`
 mailer=/usr/local/bin/emergency_mail_sender
 
-/usr/sbin/logtail -f/var/log/mail.warn | $mailer "$hostname: mail warnings"
-/usr/sbin/logtail -f/var/log/mail.err | $mailer "$hostname: mail errors"
+if [[ -e /var/log/mail.warn ]] ; then
+  /usr/sbin/logtail -f/var/log/mail.warn | $mailer "$hostname: mail warnings"
+fi
+
+if [[ -e /var/log/mail.err ]] ; then
+  /usr/sbin/logtail -f/var/log/mail.err | $mailer "$hostname: mail errors"
+fi
+
 /usr/sbin/logtail -f/var/log/syslog | grep 'status=' | egrep -v 'status=sent' | $mailer "$hostname: undelivered mail"
 
