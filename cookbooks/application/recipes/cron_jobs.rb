@@ -33,3 +33,33 @@ cron "#{app_name} monthly" do
   command sprintf(command_line, "monthly")
 end
 
+
+# check app & apache logs:
+
+cookbook_file "/usr/local/bin/check_logs" do
+  source "check_logs"
+  owner "root"
+  group "root"
+  mode 0755
+end
+
+cron "check_logs" do
+  minute "10,25,40,55" # every 15 minutes but not exactly on the hour
+  user "root"
+  command "/usr/local/bin/check_logs"
+end
+
+cookbook_file "/usr/local/bin/check_logs_daily" do
+  source "check_logs_daily"
+  owner "root"
+  group "root"
+  mode 0755
+end
+
+cron "check_logs_daily" do
+  minute "0"
+  hour "6" # NOTE logrotate runs from /etc/cron.daily which starts at 06:25
+  user "root"
+  command "/usr/local/bin/check_logs_daily"
+end
+

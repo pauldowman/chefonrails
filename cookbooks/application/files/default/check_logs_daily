@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# check for low-priority warnings
+
+EMAIL=root
+HOSTNAME=`hostname -s`
+
+send_file() {
+  FILE=$1
+  SUBJECT=$2
+  if [ ! -z "`head $FILE`" ] ; then
+    cat "$FILE" | mail -s "$HOSTNAME: $SUBJECT" $EMAIL > /dev/null
+  fi
+}
+
+
+# Apache logs
+
+for F in `ls /var/log/apache2/*error.log` ; do
+  /usr/sbin/logtail -f$F -o$F.offset-warnings | egrep '\[(warn|error)\]' | sort --key=9 > /tmp/apache_warnings
+  send_file /tmp/apache_warnings "Apache warnings: $F"
+done
+
+
+# App log
+
+PATTERN='^[0-9a-zA-Z.-]+ +([0-9]{2}:){2}[0-9]{2} +(WARN) +'
+for F in `ls /srv/*/shared/log/*.log` ; do
+  /usr/sbin/logtail -f$F -o$F.offset-warnings | egrep "$PATTERN" | sort --key=4 > /tmp/app_warnings
+  send_file /tmp/app_warnings "App warnings: $F"
+done
+
