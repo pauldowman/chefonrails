@@ -22,6 +22,10 @@ package "postfix" do
   action :install
 end
 
+package "mailutils" do
+  action :install
+end
+
 service "postfix" do
   action :enable
 end
@@ -35,3 +39,26 @@ end
     notifies :restart, resources(:service => "postfix")
   end
 end
+
+template "/etc/postfix/header_checks" do
+  source "header_checks.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  notifies :restart, resources(:service => "postfix")
+end
+
+execute "postalias" do
+  command "/usr/sbin/postalias /etc/aliases"
+  notifies :restart, resources(:service => "postfix")
+  action :nothing
+end
+
+template "/etc/aliases" do
+  source "aliases.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  notifies :run, "execute[postalias]", :immediately
+end
+
