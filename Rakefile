@@ -73,7 +73,9 @@ namespace :chefonrails do |t|
     end
 
     puts "Updating data bags..."
+    run %{knife data bag create apps}
     run %{knife data bag from file apps data_bags/app1.json}
+    run %{knife data bag create users}
     Dir.glob("data_bags/users/*.json").each do |f|
       run %{knife data bag from file users #{f}}
     end
