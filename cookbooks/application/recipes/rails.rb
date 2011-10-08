@@ -244,7 +244,7 @@ deploy_revision app['id'] do
     "memcached.yml" => "config/memcached.yml"
   })
 
-  if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
+  if app['migrate'] && app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
     migrate true
     migration_command app['migration_command'] || "bundle exec rake db:migrate"
   else
