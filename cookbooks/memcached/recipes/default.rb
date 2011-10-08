@@ -44,8 +44,8 @@ template "/etc/memcached.conf" do
   notifies :restart, resources(:service => "memcached"), :immediately
 end
 
-case node[:lsb][:codename]
-when "karmic"
+case node[:lsb][:id]
+when "Ubuntu"
   template "/etc/default/memcached" do
     source "memcached.default.erb"
     owner "root"
