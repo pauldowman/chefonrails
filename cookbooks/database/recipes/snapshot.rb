@@ -36,7 +36,7 @@ execute "xfs freeze" do
   command "xfs_freeze -f #{node.db_snapshot.ebs_vol_dev}"
 end
 
-aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
+aws_ebs_volume "#{node.db_snapshot.db_role}_#{node.db_snapshot.app_environment}" do
   aws_access_key node.db_snapshot.aws_access_key_id
   aws_secret_access_key node.db_snapshot.aws_secret_access_key
   size 20
@@ -55,6 +55,6 @@ mysql_database "unflushing tables for #{node.db_snapshot.app_environment}" do
   action :unflush_tables
 end
 
-aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
+aws_ebs_volume "#{node.db_snapshot.db_role}_#{node.db_snapshot.app_environment}" do
   action :prune
 end
