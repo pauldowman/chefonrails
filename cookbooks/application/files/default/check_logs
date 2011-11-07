@@ -24,9 +24,10 @@ done
 
 
 # App log
-
+# NOTE: this assumes that the rails app is using the log format defined by
+# https://github.com/pauldowman/better_logging
 DELIMITER='s/^--/\n\n------------------------------------------------------------------------------------------\n\n/'
-PATTERN='^[0-9a-zA-Z.-]+ +([0-9]{2}:){2}[0-9]{2} +(ERROR|FATAL|UNKNOWN) +'
+PATTERN='^[0-9a-zA-Z.-]+ +\d{4}-\d{2}-\d{2}T\S+ +(ERROR|FATAL|UNKNOWN) +'
 for F in `ls /srv/*/shared/log/*.log` ; do
   /usr/sbin/logtail -f$F -o$F.offset-errors | egrep -C 15 "$PATTERN" | sed $DELIMITER > /tmp/app_errors
   send_file /tmp/app_errors "App errors: $F"
