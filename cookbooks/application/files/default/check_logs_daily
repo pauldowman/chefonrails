@@ -23,8 +23,10 @@ done
 
 
 # App log
+# NOTE: this assumes that the rails app is using the log format defined by
+# https://github.com/pauldowman/better_logging
 
-PATTERN='^[0-9a-zA-Z.-]+ +([0-9]{2}:){2}[0-9]{2} +(WARN) +'
+PATTERN='^[0-9a-zA-Z.-]+ +[0-9]{4}-[0-9]{2}-[0-9]{2}T\S+ +(WARN) +'
 for F in `ls /srv/*/shared/log/*.log` ; do
   /usr/sbin/logtail -f$F -o$F.offset-warnings | egrep "$PATTERN" | sort --key=4 > /tmp/app_warnings
   send_file /tmp/app_warnings "App warnings: $F"
