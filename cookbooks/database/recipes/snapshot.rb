@@ -52,7 +52,11 @@ execute "xfs unfreeze" do
 end
 
 mysql_database "unflushing tables for #{node.db_snapshot.app_environment}" do
+  provider "mysql_database"
   action :unflush_tables
+  host "localhost"
+  username node.db_snapshot.username
+  password node.db_snapshot.password
 end
 
 aws_ebs_volume "#{node.db_snapshot.db_role}_#{node.db_snapshot.app_environment}" do
