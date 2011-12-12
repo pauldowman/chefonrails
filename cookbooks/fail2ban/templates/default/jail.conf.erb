@@ -19,7 +19,9 @@
 
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host
 ignoreip = 127.0.0.1 192.168.100.0
-bantime  = 86400 # 24 hours
+# bantime is 24 hours, and note that there's a fail2ban bug,
+# comments are not allowed on the same line as the "bantime" setting
+bantime  = 86400
 maxretry = 5
 
 # "backend" specifies the backend used to get files modification. Available
