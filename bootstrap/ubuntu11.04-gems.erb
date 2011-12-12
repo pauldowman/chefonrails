@@ -8,14 +8,14 @@ if [ ! -f /usr/bin/chef-client ]; then
     --slave /usr/bin/ri ri /usr/bin/ri1.9.1 \
     --slave /usr/bin/irb irb /usr/bin/irb1.9.1
   cd /tmp
-  wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.7.tgz
-  tar zxf rubygems-1.8.7.tgz
-  cd rubygems-1.8.7
+  wget http://production.cf.rubygems.org/rubygems/rubygems-1.6.2.tgz
+  tar zxf rubygems-1.6.2.tgz
+  cd rubygems-1.6.2
   ruby setup.rb --no-format-executable
 fi
 
-gem install ohai --no-rdoc --no-ri --verbose
-gem install chef --no-rdoc --no-ri --verbose <%= bootstrap_version_string %>
+gem install ohai -v 0.6.10 --no-rdoc --no-ri --verbose
+gem install chef -v 0.10.4 --no-rdoc --no-ri --verbose <%= bootstrap_version_string %>
 
 mkdir -p /etc/chef
 
