@@ -28,7 +28,7 @@ require 'net/smtp'
 exit if body.nil? || body == ""
 
 msgstr = <<END_OF_MESSAGE
-Subject: #{environment} : #{subject}
+Subject: #{environment}: #{subject}
 
 #{body}
 END_OF_MESSAGE
