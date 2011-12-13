@@ -1,4 +1,8 @@
-tz = "America/Toronto" # TODO this should be an attribute
+# NOTE don't change this, there seems to be a bug with fail2ban
+# where it doesn't match any log entries if localtime is different from
+# the time that's recorded in auth.log. Setting a large findtime could be a
+# workaround but it's probably best to just stick with UTC
+tz = "UTC" # TODO this should be an attribute
 execute "set timezone" do
   command "echo '#{tz}' > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata"
   not_if "grep '#{tz}' /etc/timezone"
