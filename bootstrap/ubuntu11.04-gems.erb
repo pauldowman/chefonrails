@@ -14,8 +14,7 @@ if [ ! -f /usr/bin/chef-client ]; then
   ruby setup.rb --no-format-executable
 fi
 
-gem install ohai -v 0.6.10 --no-rdoc --no-ri --verbose
-gem install chef -v 0.10.4 --no-rdoc --no-ri --verbose <%= bootstrap_version_string %>
+gem install chef --no-rdoc --no-ri <%= bootstrap_version_string %>
 
 mkdir -p /etc/chef
 
