@@ -32,7 +32,7 @@ TODO make this a lot better
 1. Rename data_bags/users/user1.json and edit it
 1. run `rake chefonrails:update_chef_server`
 1. Start up a server instance (the following step assumes it is a staging server)
-1. run `knife bootstrap <server hostname> -E staging -r 'role[base],role[app1_database_master],role[app1_redis_master],role[app1],role[app1_worker],role[app1_cron_jobs],role[app1_run_migrations],role[run_seed_data]' -x ubuntu -P ubuntu --template-file bootstrap/ubuntu11.04-gems.erb --sudo`
+1. run `knife bootstrap <server hostname> -E staging -N <node name> -r 'role[base],role[app1_database_master],role[app1_redis_master],role[app1],role[app1_worker],role[app1_cron_jobs],role[app1_run_migrations],role[run_seed_data]' -x ubuntu -P ubuntu --template-file bootstrap/ubuntu11.04-gems.erb --sudo`
 
 If you're using Amazon EC2 you'll want to select one of the [stock Ubuntu EC2
 AMI's](http://uec-images.ubuntu.com/releases/11.04/release/) and use `-i <ssh-key>` instead of `-P ubuntu`.
