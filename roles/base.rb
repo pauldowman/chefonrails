@@ -13,9 +13,10 @@ run_list(
   "recipe[postfix]",
   "recipe[logwatch]",
   "recipe[fail2ban]",
+  "recipe[chefonrails]",
+  #"recipe[chefonrails::hostname]",
   "recipe[mail_monitor]",
-  "recipe[screen]",
-  "recipe[chefonrails]"
+  "recipe[screen]"
 )
 
 default_attributes "ntp" => {
