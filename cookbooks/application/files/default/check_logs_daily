@@ -17,7 +17,7 @@ send_file() {
 # Apache logs
 
 for F in `ls /var/log/apache2/*error.log` ; do
-  /usr/sbin/logtail -f$F -o$F.offset-warnings | egrep '\[(warn|error)\]' | sort --key=9 > /tmp/apache_warnings
+  /usr/sbin/logtail -f$F -o$F.offset-warnings | egrep '\[error\]' | sort --key=9 > /tmp/apache_warnings
   send_file /tmp/apache_warnings "Apache warnings: $F"
 done
 
