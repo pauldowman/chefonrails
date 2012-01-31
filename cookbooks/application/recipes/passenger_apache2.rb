@@ -25,7 +25,8 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
 allowed_hostnames = (app['hostnames'] && app['hostnames'][node.chef_environment]) || []
-other_hostnames = [ node.fqdn ]
+other_hostnames = (app['hostname_aliases'] && app['hostname_aliases'][node.chef_environment]) || []
+other_hostnames << node.fqdn
 
 if node.has_key?("cloud")
   other_hostnames << node['cloud']['public_hostname']
