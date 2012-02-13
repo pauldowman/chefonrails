@@ -4,7 +4,7 @@ default[:postfix][:mydomain]   = domain
 default[:postfix][:myorigin]   = "$myhostname"
 default[:postfix][:relayhost]  = ""
 default[:postfix][:mail_relay_networks] = "127.0.0.0/8"
-default[:postfix][:discard_except_domain] = ""
+default[:postfix][:discard_except_domain] = nil
 default[:postfix][:forward_system_mail_to] = "admin@example.com" # where you want root mail delivered
 
 default[:postfix][:smtpd_use_tls] = "yes"
