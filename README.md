@@ -13,8 +13,14 @@ automatically installing everything you need and deploying your Rails app.
 
 It's based on [the official Opscode
 cookbooks](https://github.com/opscode/cookbooks) but it's preconfigured and
-opinionated. It will probably diverge significantly, towards what I think is
-the best setup for Rails. E.g. I'll likely switch to Nginx from Apache.
+opinionated, and numerous bugs have been fixed (for example, at the time of
+this writing, deploying multiple apps with the default "application" recipe
+[doesn't work and probably hasn't ever
+worked](http://tickets.opscode.com/browse/CHEF-1406)
+
+It will probably diverge significantly from the Opscode cookbooks (which IMHO
+are messy and buggy anyway), towards what I think is the best setup for Rails.
+E.g.  I'll likely switch to Nginx from Apache.
 
 _I consider this very pre-release at this point, especially until I get some
 documentation and detailed setup instructions done, which will be coming
