@@ -42,7 +42,7 @@
       "reconnect": "true",
       "encoding": "utf8",
       "username": "yourapp",
-      "adapter": "mysql", // don't forget to change to mysql2 if you're using that
+      "adapter": "mysql2", // change to just mysql if you're not using mysql2 gem
       "password": "sekrit",
       "database": "yourapp"
     },
@@ -50,7 +50,7 @@
       "reconnect": "true",
       "encoding": "utf8",
       "username": "yourapp",
-      "adapter": "mysql", // don't forget to change to mysql2 if you're using that
+      "adapter": "mysql2", // change to just mysql if you're not using mysql2 gem
       "password": "sekrit",
       "database": "yourapp"
     }
