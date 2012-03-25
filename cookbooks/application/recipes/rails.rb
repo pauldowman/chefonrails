@@ -219,6 +219,7 @@ deploy_revision app['id'] do
         group app['group']
         ignore_failure false
         cwd release_path
+        environment 'LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8'
       end
     elsif app['gems'].has_key?('bundler08')
       execute "gem bundle" do
