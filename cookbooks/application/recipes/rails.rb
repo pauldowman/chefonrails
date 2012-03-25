@@ -215,6 +215,8 @@ deploy_revision app['id'] do
       end
       common_groups = %w{development test cucumber staging production}
       execute "bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
+        user app['owner']
+        group app['group']
         ignore_failure false
         cwd release_path
       end
@@ -232,6 +234,8 @@ deploy_revision app['id'] do
       # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
       # or an add'l callback.
       execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
+        user app['owner']
+        group app['group']
         ignore_failure true
         cwd release_path
       end
