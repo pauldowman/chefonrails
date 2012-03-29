@@ -208,7 +208,18 @@ deploy_revision app['id'] do
   action app['force'][node.chef_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
   shallow_clone true
+  before_symlink do
+    execute "bundle exec rake assets:precompile" do
+      user app['owner']
+      group app['group']
+      ignore_failure false
+      cwd release_path
+      environment 'LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8'
+      only_if "bundle exec rake -T" =~ /rake assets:precompile/
+    end
+  end
   before_migrate do
+    execute "god stop workers"
     if app['gems'].has_key?('bundler')
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
