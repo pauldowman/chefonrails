@@ -76,6 +76,9 @@
   "owner": "rails",
   "group": "rails",
   "packages": {
+    "libxml2-dev": "",
+    "libxslt1-dev": "",
+    "imagemagick": ""
   },
   "gems": {
     "bundler": ">=1.0.7",
